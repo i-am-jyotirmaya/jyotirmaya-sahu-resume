@@ -1,8 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import "@/pages/home/Home.scss";
+import { transition } from "@/transition";
+import { Link } from "react-router";
 
-export const Home = () => {
+export const Home = transition(() => {
   return (
     <div className="h-screen grid place-items-center">
       <div className="flex justify-center items-center gap-10 align-baseline">
@@ -51,10 +53,12 @@ export const Home = () => {
             e
           </span>
         </p>
-        <Button size="icon" className="rounded-full h-28 w-28">
-          <ArrowRight />
-        </Button>
+        <Link to="/resume">
+          <Button size="icon" className="rounded-full h-28 w-28">
+            <ArrowRight />
+          </Button>
+        </Link>
       </div>
     </div>
   );
-};
+});
