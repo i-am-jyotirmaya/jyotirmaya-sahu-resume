@@ -10,11 +10,21 @@ import {
   technicalSkills,
   experiences,
   education,
+  DetailedExperience,
+  detailedExperiences,
 } from "@/data/resume-data";
 import githubLogo from "@/assets/github/github_64.png";
 import Markdown from "react-markdown";
+import { useState } from "react";
+import { CommentSystem } from "@/components/CommentSystem";
+import { DetailedExperienceView } from "@/components/DetailedExperience";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 
 export const Resume = transition(() => {
+  const [selectedExperience, setSelectedExperience] = useState<DetailedExperience | null>(null);
+
   const getSubheadingJsx = () => {
     return (
       <div className="flex flex-row gap-2 items-center">
@@ -60,10 +70,6 @@ export const Resume = transition(() => {
     return <Markdown>{cover}</Markdown>;
   };
 
-  const renderHorizontalLine = () => (
-    <hr className="w-96 h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
-  );
-
   const renderSection = (title: string, children: React.ReactNode) => (
     <section className="w-full mt-6">
       <h2 className="text-2xl font-bold mb-4">{title}</h2>
@@ -71,13 +77,15 @@ export const Resume = transition(() => {
     </section>
   );
 
-  const renderSignificantAchievements = () => (
-    <div className="grid grid-cols-2 gap-4">
+  const renderAchievements = () => (
+    <div className="grid grid-cols-3 gap-4">
       {significantAchievements.map((achievement) => (
-        <div key={achievement.title} className="p-4 border rounded-lg">
-          <h3 className="font-bold">{achievement.title}</h3>
-          <p>{achievement.description}</p>
-        </div>
+        <Card key={achievement.title}>
+          <CardHeader className="p-4">
+            <CardTitle>{achievement.title}</CardTitle>
+            <CardDescription>{achievement.description}</CardDescription>
+          </CardHeader>
+        </Card>
       ))}
     </div>
   );
@@ -98,17 +106,30 @@ export const Resume = transition(() => {
       return acc;
     }, {} as Record<string, typeof technicalSkills>);
 
+    const getProgress = (proficiency: "Proficient" | "Intermediate" | "Beginner") => {
+      const progressValue =
+        proficiency === "Proficient" ? 100 : proficiency === "Intermediate" ? 50 : 25;
+      const progressColor = proficiency === "Proficient" ? "bg-green-500" : "bg-yellow-500";
+      return <Progress inidicatorClassName={progressColor} value={progressValue} />;
+    };
+
     return (
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-3 gap-4">
         {Object.entries(groupedSkills).map(([group, skills]) => (
-          <div key={group}>
-            <h3 className="font-bold mb-2">{group}</h3>
-            <ul className="list-disc list-inside">
-              {skills.map((skill) => (
-                <li key={skill.name}>{skill.name}</li>
-              ))}
-            </ul>
-          </div>
+          <Card key={group}>
+            <CardHeader className="p-4">
+              <CardTitle>{group}</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-0">
+              <ul className="list-none list-inside">
+                {skills.map((skill) => (
+                  <li className="mb-2 last-of-type:mb-0" key={skill.name}>
+                    <span className="text-sm">{skill.name}</span> {getProgress(skill.proficiency)}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
         ))}
       </div>
     );
@@ -127,6 +148,16 @@ export const Resume = transition(() => {
               <li key={i}>{achievement}</li>
             ))}
           </ul>
+          <button
+            onClick={() =>
+              setSelectedExperience(
+                detailedExperiences.find((e) => e.company === exp.company) || null
+              )
+            }
+            className="text-blue-600 hover:underline mt-2"
+          >
+            View Details
+          </button>
         </div>
       ))}
     </div>
@@ -149,20 +180,35 @@ export const Resume = transition(() => {
   );
 
   return (
-    <div className="min-h-screen max-w-4xl container p-8 mx-auto">
-      <h1 className="text-6xl font-bold text-center">Jyotirmaya Sahu</h1>
-      <section className="mt-6 flex flex-col gap-4 items-center">
-        {getSubheadingJsx()}
-        {renderHorizontalLine()}
-        {getTitle()}
-        {getCoverContent()}
-      </section>
+    <>
+      <div className="min-h-screen max-w-4xl container p-8 mx-auto">
+        <h1 className="text-6xl font-bold text-center">Jyotirmaya Sahu</h1>
+        <section className="mt-6 flex flex-col gap-4 items-center">
+          {getSubheadingJsx()}
+          <Separator />
+          {getTitle()}
+          {getCoverContent()}
+        </section>
 
-      {renderSection("Significant Achievements", renderSignificantAchievements())}
-      {renderSection("Key Skills", renderKeySkills())}
-      {renderSection("Technical Skills", renderTechnicalSkills())}
-      {renderSection("Professional Experience", renderExperience())}
-      {renderSection("Education", renderEducation())}
-    </div>
+        {renderSection("Achievements", renderAchievements())}
+        {renderSection("Key Skills", renderKeySkills())}
+        {renderSection("Technical Skills", renderTechnicalSkills())}
+        {renderSection("Professional Experience", renderExperience())}
+        {renderSection("Education", renderEducation())}
+        <CommentSystem
+          sectionId="resume"
+          onComment={(comment) => {
+            // Handle comment submission
+            console.log(comment);
+          }}
+        />
+      </div>
+      {selectedExperience && (
+        <DetailedExperienceView
+          experience={selectedExperience}
+          onClose={() => setSelectedExperience(null)}
+        />
+      )}
+    </>
   );
 });

@@ -89,14 +89,14 @@ export const keySkills: string[] = [
 
 export type TechnicalSkill = {
   name: string;
-  proficiency: string;
+  proficiency: "Proficient" | "Intermediate" | "Beginner";
   group: string;
 };
 
 export const technicalSkills: TechnicalSkill[] = [
   {
     name: "Java",
-    proficiency: "Proficient",
+    proficiency: "Intermediate",
     group: "Languages",
   },
   {
@@ -111,7 +111,7 @@ export const technicalSkills: TechnicalSkill[] = [
   },
   {
     name: "TypeScript",
-    proficiency: "Proficient",
+    proficiency: "Intermediate",
     group: "Languages",
   },
   {
@@ -125,23 +125,13 @@ export const technicalSkills: TechnicalSkill[] = [
     group: "Frameworks",
   },
   {
-    name: "Angular",
-    proficiency: "Proficient",
-    group: "Frameworks",
-  },
-  {
     name: "AWS",
-    proficiency: "Proficient",
+    proficiency: "Intermediate",
     group: "Tools & Platforms",
   },
   {
     name: "DynamoDB",
-    proficiency: "Proficient",
-    group: "Tools & Platforms",
-  },
-  {
-    name: "Google Firebase",
-    proficiency: "Proficient",
+    proficiency: "Intermediate",
     group: "Tools & Platforms",
   },
   {
@@ -151,17 +141,22 @@ export const technicalSkills: TechnicalSkill[] = [
   },
   {
     name: "Azure DevOps",
+    proficiency: "Beginner",
+    group: "Tools & Platforms",
+  },
+  {
+    name: "Jira",
     proficiency: "Proficient",
     group: "Tools & Platforms",
   },
   {
     name: "Large-scale distributed systems",
-    proficiency: "Proficient",
+    proficiency: "Intermediate",
     group: "Systems",
   },
   {
     name: "Microservices architecture",
-    proficiency: "Proficient",
+    proficiency: "Intermediate",
     group: "Systems",
   },
   {
@@ -237,4 +232,39 @@ export const education: Education[] = [
     location: "India",
     year: "2019",
   },
+];
+
+export type DetailedExperience = Experience & {
+  detailedDescription: string;
+  projects: {
+    name: string;
+    description: string;
+    technologies: string[];
+    keyLearnings: string[];
+  }[];
+  technologies: string[];
+  responsibilities: string[];
+};
+
+export const detailedExperiences: DetailedExperience[] = [
+  {
+    ...experiences[0], // Amazon experience
+    detailedDescription: "Detailed description of role and impact at Amazon...",
+    projects: [
+      {
+        name: "Camera Widget - Echo Hub",
+        description: "Led development of camera integration features...",
+        technologies: ["AWS", "Java", "DynamoDB"],
+        keyLearnings: ["Distributed Systems", "Event-driven Architecture"],
+      },
+      // Add more projects
+    ],
+    technologies: ["Java", "AWS", "DynamoDB", "Microservices"],
+    responsibilities: [
+      "Leading technical design discussions",
+      "Mentoring junior developers",
+      // Add more responsibilities
+    ],
+  },
+  // Add other experiences
 ];

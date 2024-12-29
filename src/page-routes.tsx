@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation } from "react-router";
 import { Home } from "@/pages/home/Home";
-import { Resume } from "@/pages/resume/Reume";
+import { Resume } from "@/pages/resume/Resume";
 import { AnimatePresence } from "framer-motion";
 
 export const PageRoutes = () => {
