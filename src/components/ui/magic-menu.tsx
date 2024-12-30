@@ -14,15 +14,31 @@ export type MagicMenuProps = {
   menuItems: MagicMenuItem[];
 };
 
+/**
+ *
+ * x = r.cos0
+ * y = r.sin0
+ */
+
 export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
   const [magicActive, setMagicActive] = useState(false);
   const navigate = useNavigate();
 
   const createMenuItems = () => {
-    const r = 3804.29;
+    const r = 300;
+    const baseAngle = Math.PI / 6;
 
     return menuItems.map((item, index) => {
-      const topValue = -50 + (index + 1) * 125;
+      const centerX = -50 - r;
+      const centerY = -50;
+
+      const angle = baseAngle * (index % 2 === 0 ? (index + 2) / 2 : ((index + 1) / 2) * -1);
+
+      const x = r * Math.cos(angle);
+      const y = r * Math.sin(angle);
+
+      const topValue = centerY + y;
+      const leftValue = centerX + x;
       return (
         <motion.button
           key={item.link}
@@ -36,23 +52,19 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
             },
             visible: {
               top: `${topValue}%`,
-              left: `-${calculateLeftValue((index + 1) * 125, r) + 100}%`,
+              left: `${leftValue}%`,
               zIndex: 0,
               opacity: 1,
             },
           }}
           animate={magicActive ? "visible" : "hidden"}
-          transition={{ duration: 0.5, type: "spring" }}
+          transition={{ duration: 0.5, type: "spring", delay: (index + 1) * 0.1 }}
           onClick={() => navigate(item.link)}
         >
           {item.title}
         </motion.button>
       );
     });
-  };
-
-  const calculateLeftValue = (y: number, r: number) => {
-    return Math.sqrt(r ** 2 - y ** 2) - r;
   };
 
   return (
@@ -69,54 +81,6 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
         )}
       </Button>
       {createMenuItems()}
-      {/* <motion.button
-        className={cn(
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-full h-28 w-28 text-xs font-thin uppercase",
-          { "pointer-events-none": !magicActive }
-        )}
-        variants={{
-          hidden: {
-            top: "-50%",
-            left: "-50%",
-            zIndex: 0,
-            opacity: 0,
-          },
-          visible: {
-            top: "75%",
-            left: `-${calculateLeftValue(75, 3804.29) + 100}%`,
-            zIndex: 0,
-            opacity: 1,
-          },
-        }}
-        animate={magicActive ? "visible" : "hidden"}
-        transition={{ duration: 0.5, type: "spring" }}
-      >
-        Resume
-      </motion.button> */}
-      {/* <motion.button
-        className={cn(
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-full h-28 w-28 text-xs font-thin uppercase",
-          { "pointer-events-none": !magicActive }
-        )}
-        variants={{
-          hidden: {
-            top: "-50%",
-            left: "-50%",
-            zIndex: 0,
-            opacity: 0,
-          },
-          visible: {
-            top: "-175%",
-            left: `-${calculateLeftValue(-175, 3804.29) + 100}%`,
-            zIndex: 0,
-            opacity: 1,
-          },
-        }}
-        animate={magicActive ? "visible" : "hidden"}
-        transition={{ duration: 0.5, type: "spring" }}
-      >
-        Resume 1
-      </motion.button> */}
     </div>
   );
 };

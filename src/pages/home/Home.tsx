@@ -55,7 +55,7 @@ export const Home = transition(() => {
           menuItems={[
             { title: "Resume", link: "/resume" },
             { title: "About", link: "#" },
-            { title: "Blog", link: "#" },
+            { title: "Blog", link: "##" },
           ]}
         />
       </div>
