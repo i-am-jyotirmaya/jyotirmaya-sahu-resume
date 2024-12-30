@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { FC, useState } from "react";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router";
 
 type MagicMenuItem = {
@@ -13,12 +13,6 @@ type MagicMenuItem = {
 export type MagicMenuProps = {
   menuItems: MagicMenuItem[];
 };
-
-/**
- *
- * x = r.cos0
- * y = r.sin0
- */
 
 export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
   const [magicActive, setMagicActive] = useState(false);
@@ -74,11 +68,48 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
         className="rounded-full h-20 w-20 md:h-28 md:w-28 z-[1]"
         onClick={() => setMagicActive(!magicActive)}
       >
-        {magicActive ? (
-          <X />
-        ) : (
-          <span className="uppercase text-xs font-thin underline underline-offset-4">click</span>
-        )}
+        <AnimatePresence mode="wait">
+          {magicActive ? (
+            <motion.span
+              key="x"
+              initial={{
+                rotateZ: -180,
+                opacity: 1,
+              }}
+              animate={{
+                rotateZ: 0,
+                opacity: 1,
+              }}
+              exit={{
+                rotateZ: 180,
+                opacity: 0,
+              }}
+              transition={{ duration: 0.25, type: "spring" }}
+            >
+              <X />
+            </motion.span>
+          ) : (
+            <motion.span
+              key="click"
+              className="uppercase text-xs font-thin underline underline-offset-4"
+              initial={{
+                rotateZ: -180,
+                opacity: 1,
+              }}
+              animate={{
+                rotateZ: 0,
+                opacity: 1,
+              }}
+              exit={{
+                rotateZ: 180,
+                opacity: 0,
+              }}
+              transition={{ duration: 0.25, type: "spring" }}
+            >
+              click
+            </motion.span>
+          )}
+        </AnimatePresence>
       </Button>
       {createMenuItems()}
     </div>
