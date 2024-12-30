@@ -1,5 +1,5 @@
 import { Comment } from "@/types/comment";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface Props {
   sectionId: string;

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import "@/pages/home/Home.scss";
 import { transition } from "@/transition";
 import { Link } from "react-router";
+import { MagicMenu } from "@/components/ui/magic-menu";
 
 export const Home = transition(() => {
   return (
@@ -53,11 +54,7 @@ export const Home = transition(() => {
             e
           </span>
         </p>
-        <Link to="/resume">
-          <Button size="icon" className="rounded-full h-28 w-28">
-            <ArrowRight />
-          </Button>
-        </Link>
+        <MagicMenu menuItems={[{ title: "Resume", link: "/resume" }]} />
       </div>
     </div>
   );
