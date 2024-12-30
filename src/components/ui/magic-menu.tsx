@@ -25,17 +25,17 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
   const navigate = useNavigate();
 
   const createMenuItems = () => {
-    const r = 300;
-    const baseAngle = Math.PI / 6;
+    const radius = 500;
+    const baseAngle = Math.PI / 12;
 
     return menuItems.map((item, index) => {
-      const centerX = -50 - r;
+      const centerX = -50 - radius;
       const centerY = -50;
 
       const angle = baseAngle * (index % 2 === 0 ? (index + 2) / 2 : ((index + 1) / 2) * -1);
 
-      const x = r * Math.cos(angle);
-      const y = r * Math.sin(angle);
+      const x = radius * Math.cos(angle);
+      const y = radius * Math.sin(angle);
 
       const topValue = centerY + y;
       const leftValue = centerX + x;
