@@ -15,7 +15,7 @@ import {
 } from "@/data/resume-data";
 import githubLogo from "@/assets/github/github_64.png";
 import Markdown from "react-markdown";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { CommentSystem } from "@/components/CommentSystem";
 import { DetailedExperienceView } from "@/components/DetailedExperience";
 import { Separator } from "@/components/ui/separator";
@@ -27,20 +27,19 @@ export const Resume = transition(() => {
 
   const getSubheadingJsx = () => {
     return (
-      <div className="flex flex-row gap-2 items-center">
+      <div className="flex flex-row gap-2 items-center flex-wrap">
         {subheadingItems.map((item, i) => {
           return (
-            <>
+            <Fragment key={`${item.type}-${item.value}`}>
               {i === 0 ? <></> : <>&bull;</>}
               {getSubheadingItemJsx(item)}
-            </>
+            </Fragment>
           );
         })}
       </div>
     );
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getSubheadingItemJsx = (item: SubheadingItem) => {
     if (item.type === "linkedin" || item.type === "github") {
       return (
@@ -78,7 +77,7 @@ export const Resume = transition(() => {
   );
 
   const renderAchievements = () => (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 grid-cols-1 gap-4">
       {significantAchievements.map((achievement) => (
         <Card key={achievement.title}>
           <CardHeader className="p-4">
@@ -114,7 +113,7 @@ export const Resume = transition(() => {
     };
 
     return (
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 grid-cols-1 gap-4">
         {Object.entries(groupedSkills).map(([group, skills]) => (
           <Card key={group}>
             <CardHeader className="p-4">

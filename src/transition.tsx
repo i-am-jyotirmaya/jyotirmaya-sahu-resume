@@ -13,7 +13,7 @@ export const transition = (OriginalComponent: React.FC) => {
         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
       >
         <p
-          className="text-background text-9xl font-black fixed
+          className="text-background md:text-9xl text-5xl font-black fixed
          top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         >
           travelling
@@ -27,7 +27,7 @@ export const transition = (OriginalComponent: React.FC) => {
         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
       >
         <p
-          className="text-background text-9xl font-black fixed
+          className="text-background md:text-9xl text-5xl font-black fixed
          top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         >
           travelling

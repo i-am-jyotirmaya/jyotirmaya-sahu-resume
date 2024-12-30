@@ -1,15 +1,12 @@
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import "@/pages/home/Home.scss";
 import { transition } from "@/transition";
-import { Link } from "react-router";
 import { MagicMenu } from "@/components/ui/magic-menu";
 
 export const Home = transition(() => {
   return (
     <div className="h-screen grid place-items-center">
-      <div className="flex justify-center items-center gap-10 align-baseline">
-        <p className="text-9xl font-black text-center cursor-crosshair welcome-text *:transition-colors">
+      <div className="flex justify-center items-center md:gap-10 gap-7 align-baseline">
+        <p className="md:text-9xl text-5xl font-black text-center cursor-crosshair welcome-text *:transition-colors">
           <span
             data-char="w"
             className="hover:text-red-600 before:text-red-100 after:text-red-800 hover:capitalize"
@@ -54,7 +51,13 @@ export const Home = transition(() => {
             e
           </span>
         </p>
-        <MagicMenu menuItems={[{ title: "Resume", link: "/resume" }]} />
+        <MagicMenu
+          menuItems={[
+            { title: "Resume", link: "/resume" },
+            { title: "About", link: "#" },
+            { title: "Blog", link: "#" },
+          ]}
+        />
       </div>
     </div>
   );

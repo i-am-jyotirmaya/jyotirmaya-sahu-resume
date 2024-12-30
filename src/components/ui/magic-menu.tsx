@@ -22,11 +22,11 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
     const r = 3804.29;
 
     return menuItems.map((item, index) => {
-      const topValue = 50 + (index + 1) * 25;
+      const topValue = -50 + (index + 1) * 125;
       return (
         <motion.button
           key={item.link}
-          className="bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-full h-28 w-28 text-xs font-thin uppercase"
+          className="bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-full h-20 w-20 md:h-28 md:w-28 text-xs font-thin uppercase"
           variants={{
             hidden: {
               top: "-50%",
@@ -35,8 +35,8 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
               opacity: 0,
             },
             visible: {
-              top: topValue,
-              left: `-${calculateLeftValue(topValue, r) + 100}%`,
+              top: `${topValue}%`,
+              left: `-${calculateLeftValue((index + 1) * 125, r) + 100}%`,
               zIndex: 0,
               opacity: 1,
             },
@@ -52,14 +52,14 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
   };
 
   const calculateLeftValue = (y: number, r: number) => {
-    return Math.sqrt(r ** 2 - y ** 2 - 2500 + 5000 * y) - 50 - r;
+    return Math.sqrt(r ** 2 - y ** 2) - r;
   };
 
   return (
-    <div className="relative *:absolute *:-top-1/2 *:-left-1/2 h-28 w-28 *:transform *:translate-x-1/2 *:translate-y-1/2">
+    <div className="relative *:absolute *:-top-1/2 *:-left-1/2 h-20 w-20 md:h-28 md:w-28 *:transform *:translate-x-1/2 *:translate-y-1/2">
       <Button
         size="icon"
-        className="rounded-full h-28 w-28 z-[1]"
+        className="rounded-full h-20 w-20 md:h-28 md:w-28 z-[1]"
         onClick={() => setMagicActive(!magicActive)}
       >
         {magicActive ? (
