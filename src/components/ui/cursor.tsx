@@ -3,7 +3,7 @@ import SplashSvg from "@/assets/splash.svg";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-export const CursorTrail = () => {
+export const Cursor = () => {
   const MAX_CURSOR_SIZE = 16;
   const LONG_PRESS_INTERVAL = 1200;
   const SPLASH_DURATION_IN_SECONDS = 0.15;
@@ -11,20 +11,22 @@ export const CursorTrail = () => {
   const ref = useRef<HTMLDivElement>(null);
   const splashAngleRef = useRef("0deg");
   const longPressIntervalRef = useRef<ReturnType<typeof window.setInterval> | null>(null);
+  const cursorPosition = useRef([0, 0]);
 
   const [isSplashVisible, setIsSplashVisible] = useState(false);
-  const [pos, setPos] = useState([0, 0]);
   const [cursorSize, setCursorSize] = useState(3);
 
   useEffect(() => {
-    window.onmousemove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       if (ref.current) {
         ref.current.style.top = `${e.clientY}px`;
         ref.current.style.left = `${e.clientX}px`;
       }
     };
-    window.onmousedown = (e) => {
-      setPos([e.clientX, e.clientY]);
+    window.addEventListener("mousemove", handleMouseMove);
+
+    const handleMouseDown = (e: MouseEvent) => {
+      cursorPosition.current = [e.clientX, e.clientY];
       setIsSplashVisible(true);
       longPressIntervalRef.current = setInterval(() => {
         setCursorSize((prevSize) => {
@@ -43,13 +45,23 @@ export const CursorTrail = () => {
         splashAngleRef.current = `${Math.random() * 360}deg`;
       }, SPLASH_DURATION_IN_SECONDS * 1000);
     };
-    window.onmouseup = () => {
+    window.addEventListener("mousedown", handleMouseDown);
+
+    const handleMouseUp = () => {
       if (longPressIntervalRef.current) {
         console.log("clearing interval on up", longPressIntervalRef.current);
         clearInterval(longPressIntervalRef.current);
         longPressIntervalRef.current = null;
       }
       setCursorSize(3);
+    };
+
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, [cursorSize]);
 
@@ -78,10 +90,10 @@ export const CursorTrail = () => {
         {isSplashVisible ? (
           <motion.img
             key="splash"
-            className={`fixed h-12 w-12 z-[999] select-none pointer-events-none -translate-x-1/2 -translate-y-1/2 left-[${pos[0]}px] top-[${pos[1]}px]`}
+            className={`fixed h-12 w-12 z-[999] select-none pointer-events-none -translate-x-1/2 -translate-y-1/2`}
             style={{
-              left: pos[0],
-              top: pos[1],
+              left: cursorPosition.current[0],
+              top: cursorPosition.current[1],
             }}
             initial={{
               scale: 0,
