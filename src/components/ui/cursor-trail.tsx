@@ -64,7 +64,7 @@ export const CursorTrail = () => {
       <div
         ref={ref}
         className={cn(
-          "transition-[width,height] h-3 w-3 bg-white border-2 rounded-full border-black fixed z-[999] -translate-x-1/2 -translate-y-1/2 pointer-events-none",
+          "transition-[width,height] h-6 w-6 h-16 w-16 h-3 w-3 bg-white border-2 rounded-full border-black fixed z-[999] -translate-x-1/2 -translate-y-1/2 pointer-events-none",
           `h-${cursorSize} w-${cursorSize}`,
           {
             "bg-yellow-300": cursorSize === 6,
