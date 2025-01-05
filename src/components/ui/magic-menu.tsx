@@ -43,16 +43,23 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
               left: "-50%",
               zIndex: 0,
               opacity: 0,
+              filter: `blur(0.5rem)`,
             },
             visible: {
               top: `${topValue}%`,
               left: `${leftValue}%`,
               zIndex: 0,
               opacity: 1,
+              filter: `blur(0rem)`,
             },
           }}
           animate={magicActive ? "visible" : "hidden"}
-          transition={{ duration: 0.5, type: "spring", delay: (index + 1) * 0.1 }}
+          transition={{
+            duration: 0.5,
+            type: "spring",
+            delay: (index + 1) * 0.1,
+            filter: { duration: 0.5, ease: "easeOut" },
+          }}
           onClick={() => navigate(item.link)}
         >
           {item.title}
@@ -73,7 +80,7 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
             <motion.span
               key="x"
               initial={{
-                rotateZ: -180,
+                rotateZ: -90,
                 opacity: 1,
               }}
               animate={{
@@ -81,7 +88,7 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
                 opacity: 1,
               }}
               exit={{
-                rotateZ: 180,
+                rotateZ: 90,
                 opacity: 0,
               }}
               transition={{ duration: 0.25, type: "spring" }}
@@ -93,7 +100,7 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
               key="click"
               className="uppercase text-xs font-thin underline underline-offset-4"
               initial={{
-                rotateZ: -180,
+                rotateZ: -90,
                 opacity: 1,
               }}
               animate={{
@@ -101,7 +108,7 @@ export const MagicMenu: FC<MagicMenuProps> = ({ menuItems }) => {
                 opacity: 1,
               }}
               exit={{
-                rotateZ: 180,
+                rotateZ: 90,
                 opacity: 0,
               }}
               transition={{ duration: 0.25, type: "spring" }}
